@@ -1,0 +1,30 @@
+<div class="col-md-12">
+	<h3>Welcome to my experiment</h3>
+	<% if(attached == true){ %>
+		<p>You can now connect with <%= attachedToSname %></p>
+	<% }else{ %>
+		<p>Yiu can now connect with any one of the people in the pool. Click "talk to a stranger" to find a random person or click on one of the names you have favorited.</p>
+	<% } %>
+</div>
+
+<div class="col-md-12">
+	<% if(attached == true){ %>
+		<div class="col-md-12">
+			<button class="btn btn-large btn-primary" onclick="window.location = '/app/init';" >Talk to <%= attachedToSname %></button>
+		</div>
+	<% }else{ %>
+		<div class="col-md-6">
+			<button class="btn btn-large btn-primary">Talk to a stranger</button>
+		</div>
+		<div class="col-md-6">
+			<ul>
+				<h4>Saved contacts</h4>
+				<ul>
+					<% favorites.forEach(function(favorite){ %>
+						<li> <%= favorite %></li>
+					<% }); %>
+				</ul>
+			</ul>
+		</div>
+	<% } %>
+</div>

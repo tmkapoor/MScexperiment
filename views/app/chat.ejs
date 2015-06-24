@@ -1,0 +1,72 @@
+<div>
+	<h3>You are now connected to <%= recipientSname %></h3>
+	</hr>
+	<div id="chat-box" class="chat-content col-md-offset-1 col-md-10 col-sm-12 col-xs-12" >
+		
+	</div>
+	<div class="col-md-12">
+		<textarea id="message" class="col-md-10" ></textarea>
+		<button id="send" class="btn btn-large btn-success col-md-2" >SEND</button>
+	</div>
+
+</div>
+
+
+<script type="text/javascript">
+	window.onload = function subscribeAndListen(){
+
+		function scoopAndSend(e){
+	    	e.preventDefault();
+	    	var messageBox = $("#message");
+	    	var content = messageBox.val();
+	    	messageBox.val("");
+	    	io.socket.get('/message/send/', {content: content}, function(data){ console.log(data); });
+
+	    	message.focus();
+	    }
+
+	    function checkAndSend(e){
+			if(e.which == 13) {
+				scoopAndSend(e);
+			}
+		}
+
+
+		$("#send").click(scoopAndSend);
+
+		$("#message").keypress(checkAndSend);
+
+
+		var recipient = "<%= recipientSname %>";
+
+	    // When the document loads, send a request to users.testSocket
+	    // The controller code will subscribe you to all of the 'users' model instances (records)
+	    //io.socket.get('/message/subToMessage/');
+
+	    io.socket.on('message' ,function(obj){
+	    	console.log(obj);
+
+	    	var toWrite = "";
+
+	    	if(obj.from != <%= recipient %>){
+	    		toWrite += "Me: ";
+	    	}
+	    	else{
+	    		toWrite += recipient + ": ";
+	    	}
+
+	    	toWrite += obj.message + "</br>" ;
+
+	    	$("#chat-box").append(toWrite);
+
+	    	$('#chat-box').animate({scrollTop: $('#chat-box').prop("scrollHeight")}, "fast");
+
+
+	    });
+
+	    
+
+
+	};
+
+</script>

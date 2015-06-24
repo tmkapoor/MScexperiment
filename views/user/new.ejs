@@ -1,0 +1,21 @@
+<div class="jumbotron">
+	<form action="/user/create" method="POST">
+		<label for="sname" >Screen name</label>
+		<input type="text" name="sname" />
+
+		<label for="email" >Email</label>
+		<input type="email" name="email" />
+
+		<label for="email-check" >Confirm email</label>
+		<input type="email" name="email-check" />
+
+		<label for="password" >Password</label>
+		<input type="password" name="password" />
+
+		<label for="confirmation" >Confirm password</label>
+		<input type="password" name="confirmation" />
+
+		<input type="submit" value="Sign up !" />
+		<input type="hidden" name="_csrf" value="<%= _csrf %>" />
+	</form>
+</div>

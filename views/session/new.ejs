@@ -1,0 +1,15 @@
+<div class="jumbotron" >
+	<h2>Login</h2>
+	<form action="/session/create" method="POST">
+		<label for="email">Email</label>
+		<input type="email" name="email" id="email" hint="Enter your email address"/>
+
+		<label for="password">Password</label>
+		<input type="password" name="password" id="password" />
+
+		<input type="submit" class="btn btn-success" value="Login"/>
+		<input type="hidden" name="_csrf" value="<%= _csrf %>" />
+		<button class="btn btn-primary" onclick="window.location('/user/new'); ">Sign up !</button>
+	</form>
+
+</div>
