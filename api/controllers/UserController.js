@@ -30,26 +30,20 @@ module.exports = {
 
 			User.create(dbSlave, function userCreated(err, user){
 				if(err){
-					console.log("An error has occured.");
+					sails.config.app.setFlashMessage(req, ["An error occured."], "error");
 					console.log(err);
 				}
 				else{
-					console.log("User successfully created.");
+					sails.config.app.setFlashMessage(req, ["You have succesfully created your account."], "success");
 					console.log(user);
-					res.redirect('/user');
+					res.redirect('/session/new');
 				}
 			});
 		});
 	},
 
-	test: function(req, res, next){
-		User.find({sname: ["tmk", "dumpy"]}).exec(function(err, users){
-			res.send(users);
-		});
-	},
-
 	adminEdit: function(req, res, next){
-		
+
 	},
 };
 

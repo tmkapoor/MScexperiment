@@ -52,7 +52,6 @@ module.exports = {
   	},
 
   	toJSON: function(){
-  		console.log("User toJSONed.");
   		var obj = this.toObject();
   		delete obj.epassword;
   		delete obj.password;
