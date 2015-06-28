@@ -42,7 +42,10 @@ module.exports.sockets = {
           id: session.user.id,
           sname: session.user.sname,
           socketId: session.chat.mySocketId,
+          inChat: false,
         });
+
+        console.log("::> User added ! The online count is " + sails.config.app.online.length);
 
       }
   },
@@ -62,6 +65,9 @@ module.exports.sockets = {
           sails.config.app.online.splice(i, 1);
         }
       }
+
+      console.log("::> User removed ! The online count is " + sails.config.app.online.length);
+
     }
   },
 

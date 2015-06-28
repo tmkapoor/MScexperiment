@@ -96,6 +96,14 @@ module.exports = {
 
 	destroy: function(req, res, next){
 
+		if(req.session.authenticated){
+			for(var i=0 ; i<sails.config.app.online.length ; i++){
+				if(sails.config.app.online[i].id == req.session.user.id){
+					sails.config.app.online.splice(i, 1);
+				}
+			}
+		}
+
 		req.session.authenticated = false;
 		delete req.session.authenticated;
 

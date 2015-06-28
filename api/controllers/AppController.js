@@ -45,8 +45,6 @@ module.exports = {
 									unread[messages[i].from]++;
 							}
 
-							console.log(unread);
-
 							var viewSlave = {
 								attached: req.session.user.attached,
 								attachedTo: req.session.user.attachedTo,
@@ -55,8 +53,6 @@ module.exports = {
 								mySname: req.session.user.sname,
 								unread: unread,
 							};
-
-							console.log(viewSlave);
 
 							res.view(viewSlave);
 						}
@@ -68,44 +64,6 @@ module.exports = {
 				}
 			}
 		});
-
-		/*if(req.session.user.attached){
-
-			User.findOne({id: req.session.user.attachedTo }).exec(function(err, user){
-				if(err){
-					sails.config.app.setFlashMessage(req, "Unable to connect to database", "error");
-					res.redirect("/app/home");
-				}
-				else{
-					if(user.length <= 0){
-						sails.config.app.setFlashMessage(req, "Unable to connect to database", "error");
-						res.redirect("/app/home");		
-					}
-					else{
-
-						//Subscribe to Users model
-
-						var viewSlave = {
-							attached: req.session.user.attached,
-							attachedTo: req.session.user.attachedTo,
-							online: sails.config.app.online,
-							favorites: ["something", "something else"],
-							me: req.session.user.id,
-							mySname: req.session.user.sname,
-							attachedToSname: user.sname,
-						};
-
-						console.log(viewSlave);
-
-						res.view(viewSlave);
-					}
-				}
-			});
-		}
-		else{
-
-		}*/
-
 	},
 
 	init: function(req, res, next){
@@ -114,14 +72,28 @@ module.exports = {
 			var to = req.session.user.attachedTo;
 		}
 		else{
-			var to = req.param("connectTo");
+			var to = req.param("id");
 		}
 
-		req.session.chat = {
-			recipient: to,
-		};
+		User.findOne({id: to }).exec(function(err, user){
+			if(err){
+				sails.config.app.setFlashMessage(req, "Unable to connect to database", "error");
+				res.redirect("/app/home");
+			}
+			else{
+				if(user.length <= 0){
+					sails.config.app.setFlashMessage(req, "No such user found, sorry :(", "error");
+					res.redirect("/app/home");		
+				}
+				else{
+					req.session.chat = {
+						recipient: to,
+					};
 
-		res.redirect("/app/chat");
+					res.redirect("/app/chat");
+				}
+			}
+		});
 	},
 
 	chat: function(req, res, next){
@@ -151,7 +123,6 @@ module.exports = {
 								}
 							});
 
-							console.log("Found these many messages: " + messages.length);
 							var viewSlave = {
 								me: req.session.user.id,
 								recipient: user.id, 

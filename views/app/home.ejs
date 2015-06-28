@@ -10,7 +10,7 @@
 
 		<% available.forEach(function(each){ %>
 			<div class="col-md-4 center padding">
-				<button class="btn btn-default btn-info stretch-90 id_<%= each.id %>" onclick="window.location = '/app/init';" type="button">
+				<button class="btn btn-default btn-info stretch-90 id_<%= each.id %>" onclick="window.location = '/app/init/<%= each.id %>';" type="button">
 				  	<%= each.sname %> <span class="badge"> <%= (unread[each.id]) ? unread[each.id] : 0 %> </span>
 				</button>
 			</div>

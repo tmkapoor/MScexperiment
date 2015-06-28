@@ -8,11 +8,9 @@
 module.exports = {
 	subToMessage: function(req, res, next){
 		if(req.isSocket){
-			console.log("Socket id " + req.socket + " has asked to subscribe to message model.");
 			Message.find({}).exec(function(err, messages){
 				if(!err){
 					Message.watch(req);
-					console.log("Socket id " + req.socket + " has been subscribed to message model !");
 				}
 			});
 		}
@@ -23,7 +21,6 @@ module.exports = {
 
 	send: function(req, res, next){
 		if(req.isSocket && req.param('content')){
-			console.log("Socket id " + req.socket + " sent message: " + req.param('content'));
 
 			var recipientSocket = sails.config.app.getSocketId(req.session.chat.recipient);
 
@@ -37,6 +34,7 @@ module.exports = {
 				dbSlave.unread = true;
 			}
 
+			console.log("\n\n*********\n MSG\n*********");
 			console.log(dbSlave);
 
 			Message.create(dbSlave, function(err, message){
@@ -50,15 +48,15 @@ module.exports = {
 						message: message.content,
 						from: message.from,
 					};					
-
-					console.log(socketSlave);
 					
 					var destinationSocket = [];
 					destinationSocket.push(req.session.chat.mySocketId);
 
 					if(recipientSocket){
-						destinationSocket.push();
+						destinationSocket.push(recipientSocket);
 					}
+
+					console.log(destinationSocket);
 
 					sails.sockets.emit(destinationSocket, 'message', socketSlave);
 				}

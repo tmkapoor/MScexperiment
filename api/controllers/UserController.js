@@ -53,11 +53,9 @@ module.exports = {
 
 	subToUser: function(req, res, next){
 		if(req.isSocket){
-			console.log("Socket id " + req.socket + " has asked to subscribe to user model.");
 			User.find({}).exec(function(err, users){
 				if(!err){
 					User.subscribe(req, users);
-					console.log("Socket id " + req.socket + " has been subscribed to users model !");
 				}
 			});
 		}
