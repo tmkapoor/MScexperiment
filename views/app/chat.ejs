@@ -2,7 +2,9 @@
 	<h3>You are now connected to <%= recipientSname %></h3>
 	</hr>
 	<div id="chat-box" class="chat-content col-md-offset-1 col-md-10 col-sm-12 col-xs-12" >
-		
+		<% for(var i=0; i<messages.length; i++) { %>
+		   <p <%= (messages[i].unread)? "unread" : "" %> ><strong><%= (messages[i].from == me)? "Me: " : recipientSname+": " %></strong> <%= messages[i].content %></p>
+		<% } %>
 	</div>
 	<div class="col-md-12">
 		<textarea id="message" class="col-md-10" ></textarea>
@@ -46,16 +48,16 @@
 	    io.socket.on('message' ,function(obj){
 	    	console.log(obj);
 
-	    	var toWrite = "";
+	    	var toWrite = "<p class='chat-msg'><strong>";
 
-	    	if(obj.from != <%= recipient %>){
+	    	if(obj.from != "<%= recipient %>"){
 	    		toWrite += "Me: ";
 	    	}
 	    	else{
 	    		toWrite += recipient + ": ";
 	    	}
 
-	    	toWrite += obj.message + "</br>" ;
+	    	toWrite += "</strong>" + obj.message + "</p>" ;
 
 	    	$("#chat-box").append(toWrite);
 

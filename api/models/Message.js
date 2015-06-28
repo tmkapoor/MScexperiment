@@ -10,12 +10,12 @@ module.exports = {
 
   	attributes: {
   		from: {
-  			type: 'integer',
+  			type: 'string',
   			required: true
   		},
 
   		to: {
-  			type: 'integer',
+  			type: 'string',
   			required: true,
   		},
 

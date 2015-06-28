@@ -7,10 +7,21 @@
 
 module.exports = {
 	new: function(req,res,next){
-		res.view();
+		if(req.session.authenticated && req.session.authenticated == true){
+			sails.config.app.setFlashMessage(req, ["You are already logged in :)"], "info");
+			res.redirect("/app/home");
+		}
+		else{
+			res.view();
+		}
 	},
 
 	create: function(req, res, next){
+
+		if(req.session.authenticated && req.session.authenticated == true){
+			res.redirect("/app/home");
+		}
+
 		var dbSlave = req.params.all();
 
 		if(dbSlave.email && dbSlave.email != "" && dbSlave.password && dbSlave.password != ""){
@@ -85,24 +96,13 @@ module.exports = {
 
 	destroy: function(req, res, next){
 
-
-		//Remove entry from online array
-		Object.keys(sails.config.app.online).forEach(function(key) {
-			var obj = sails.config.app.online[key];
-			console.log(key + " :: ");
-			console.log(obj);
-			if(obj[0] == req.session.user.id){
-				sails.config.app.splice(key, 1);
-			}
-		});
-
-		sails.config.app.online
-
 		req.session.authenticated = false;
 		delete req.session.authenticated;
 
 		req.session.user = {};
 		delete req.session.user;
+
+		sails.config.app.setFlashMessage(req, ["You have successfully logged out."], "success");
 
 		res.redirect('/session/new');
 	},

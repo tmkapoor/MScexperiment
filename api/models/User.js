@@ -51,6 +51,13 @@ module.exports = {
   		defaultsTo: -1,
   	},
 
+  	interview: {
+  		type: "boolean",
+  		required: true,
+  		defaultsTo: false,
+  	},
+
+
   	toJSON: function(){
   		var obj = this.toObject();
   		delete obj.epassword;

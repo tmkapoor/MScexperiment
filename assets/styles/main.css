@@ -5,6 +5,27 @@ textarea{
 }
 
 /*Class based*/
+
+.center{
+	text-align: center;;
+}
+
+.stretch-90{
+	width: 90%;
+}
+
+.padding-half{
+	padding: 0.5em auto !important;
+}
+
+.padding{
+	padding: 1em auto !important;
+}
+
+.padding-double{
+	padding: 2em auto !important;
+}
+
 .chat-content{
 	overflow: scroll;
 	min-height: 24em;
@@ -12,4 +33,21 @@ textarea{
 	margin: 2em auto;
 }
 
+
+.button{
+	padding: 0.5em 2.4em;
+	background: none;
+	border: solid 3px #474747;
+	font-weight: bold;
+}
+
+.button-success:hover{
+	border: solid 3px #388E3C;
+	color: #388E3C;
+}
+
+.button-primary:hover{
+	border: solid 3px #0288D1;
+	color: #0288D1;
+}
 

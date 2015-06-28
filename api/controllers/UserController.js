@@ -7,10 +7,19 @@
 
 module.exports = {
 	new: function(req, res, next){
+		if(req.session.authenticated && req.session.authenticated == true){
+			sails.config.app.setFlashMessage(req, ["You are already Signed up and logged in :)"], "info");
+			res.redirect("/app/home");
+		}
 		res.view();
 	},
 
 	create: function(req, res, next){
+
+		if(req.session.authenticated && req.session.authenticated == true){
+			res.redirect("/app/home");
+		}
+
 		var holder = req.params.all();
 
 		var encPassword = "";
@@ -42,8 +51,21 @@ module.exports = {
 		});
 	},
 
-	adminEdit: function(req, res, next){
-
+	subToUser: function(req, res, next){
+		if(req.isSocket){
+			console.log("Socket id " + req.socket + " has asked to subscribe to user model.");
+			User.find({}).exec(function(err, users){
+				if(!err){
+					User.subscribe(req, users);
+					console.log("Socket id " + req.socket + " has been subscribed to users model !");
+				}
+			});
+		}
+		else{
+			res.redirect("/app/home");
+		}
 	},
+
+
 };
 

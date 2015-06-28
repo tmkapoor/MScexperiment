@@ -1,21 +1,34 @@
 <div class="jumbotron">
 	<form action="/user/create" method="POST">
-		<label for="sname" >Screen name</label>
-		<input type="text" name="sname" />
+		<div class="form-group">
+			<label for="sname" >Screen name</label>
+			<input class="form-control" type="text" name="sname" placeholder="Screen name" />
+		</div>
 
-		<label for="email" >Email</label>
-		<input type="email" name="email" />
+		<div class="form-group">
+			<label for="email" >Email</label>
+			<input class="form-control" type="email" name="email" placeholder="Email address" />
+		</div>
 
-		<label for="email-check" >Confirm email</label>
-		<input type="email" name="email-check" />
+		<div class="form-group">
+			<label for="email-check" >Confirm email</label>
+			<input class="form-control" type="email" name="email-check" placeholder="Email address" />
+		</div>
 
-		<label for="password" >Password</label>
-		<input type="password" name="password" />
+		<div class="form-group">
+			<label for="password" >Password</label>
+			<input class="form-control" type="password" name="password" placeholder="Password" />
+		</div>
 
-		<label for="confirmation" >Confirm password</label>
-		<input type="password" name="confirmation" />
-
-		<input type="submit" value="Sign up !" />
-		<input type="hidden" name="_csrf" value="<%= _csrf %>" />
+		<div class="form-group">
+			<label for="confirmation" >Confirm password</label>
+			<input class="form-control" type="password" name="confirmation" placeholder="Password" />
+		</div>
+		
+		<div class="form-group">
+			<input type="submit" value="Sign up !" class="button button-success" />
+			<input type="hidden" name="_csrf" value="<%= _csrf %>" />
+		</div>
+		
 	</form>
 </div>

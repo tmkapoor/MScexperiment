@@ -32,8 +32,6 @@ module.exports.sockets = {
         session.chat.mySocketId = sails.sockets.id(socket);
         session.save();
 
-        console.log("\n\n*** NEW SOCKET MADE! ");
-
         for(var i=0 ; i<sails.config.app.online.length ; i++){
           if(sails.config.app.online[i].id == session.user.id){
             sails.config.app.online.splice(i, 1);
@@ -45,8 +43,6 @@ module.exports.sockets = {
           sname: session.user.sname,
           socketId: session.chat.mySocketId,
         });
-
-        console.log(sails.config.app.online);
 
       }
   },
@@ -60,10 +56,11 @@ module.exports.sockets = {
   ***************************************************************************/
   onDisconnect: function(session, socket) {
 
-    // By default: do nothing.
-    for(var i=0 ; i<sails.config.app.online.length ; i++){
-      if(sails.config.app.online[i].id == session.user.id){
-        sails.config.app.online.splice(i, 1);
+    if(session.authenticated){
+      for(var i=0 ; i<sails.config.app.online.length ; i++){
+        if(sails.config.app.online[i].id == session.user.id){
+          sails.config.app.online.splice(i, 1);
+        }
       }
     }
   },
