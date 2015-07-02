@@ -10,7 +10,7 @@
 
 		<% available.forEach(function(each){ %>
 			<div class="col-md-4 center padding">
-				<button class="btn btn-default btn-info stretch-90 id_<%= each.id %>" onclick="window.location = '/app/init/<%= each.id %>';" type="button">
+				<button class="btn btn-default stretch-90 id_<%= each.id %>" onclick="window.location = '/app/init/<%= each.id %>';" type="button">
 				  	<%= each.sname %> <span class="badge"> <%= (unread[each.id]) ? unread[each.id] : 0 %> </span>
 				</button>
 			</div>
@@ -21,6 +21,14 @@
 	</div>
 </div>
 
+<audio id="ting">
+    <source src="/sounds/ting.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="click">
+    <source src="/sounds/click.mp3" type="audio/mpeg">
+</audio>
+
 <script type="text/javascript">
 	window.onload = function subscribeAndListen(){
 
@@ -28,11 +36,20 @@
 	    io.socket.get('/user/subToUser/');
 
 	    io.socket.on('message' ,function(obj){
-	    	//Do nothing for now...
+	    	$("#click")[0].play();
 	    });
 
 	    io.socket.on('user' ,function(obj){
-	    	//Do nothing for now...
+	    	console.log(obj);
+
+	    	if(obj.data.online){
+	    		$("button.id_"+obj.id).addClass('btn-info');
+	    		$("#ting")[0].play();
+	    	}
+	    	else{
+	    		$("button.id_"+obj.id).removeClass('btn-info');
+	    	}
+
 	    });
 	};
 </script>

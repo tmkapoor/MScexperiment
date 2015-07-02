@@ -55,7 +55,8 @@ module.exports = {
 		if(req.isSocket){
 			User.find({}).exec(function(err, users){
 				if(!err){
-					User.subscribe(req, users);
+					console.log(req.socket.id + " asked to subscribe to the user model.");
+					User.subscribe(req.socket, users);
 				}
 			});
 		}
@@ -63,7 +64,5 @@ module.exports = {
 			res.redirect("/app/home");
 		}
 	},
-
-
 };
 

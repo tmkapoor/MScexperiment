@@ -18,7 +18,7 @@ module.exports.app = {
 			if(onlineUsers[i].id === id){
 				console.log(onlineUsers[i]);
 				console.log(" *** Socket Id found to be " + onlineUsers[i].socketId);
-				return onlineUsers[i].socketId;
+				return {index: i, id: onlineUsers[i].socketId, inChat: onlineUsers[i].inChat };
 			}
 		}
 		console.log("User is not online.");

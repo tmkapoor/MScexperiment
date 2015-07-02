@@ -110,6 +110,8 @@ module.exports = {
 		req.session.user = {};
 		delete req.session.user;
 
+		User.publishUpdate(session.user.id, { online: false});
+
 		sails.config.app.setFlashMessage(req, ["You have successfully logged out."], "success");
 
 		res.redirect('/session/new');

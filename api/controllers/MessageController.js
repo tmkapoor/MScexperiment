@@ -22,7 +22,9 @@ module.exports = {
 	send: function(req, res, next){
 		if(req.isSocket && req.param('content')){
 
-			var recipientSocket = sails.config.app.getSocketId(req.session.chat.recipient);
+			var socketStatus = sails.config.app.getSocketId(req.session.chat.recipient);
+
+			var recipientSocket = (socketStatus)? socketStatus.id : false;
 
 			var dbSlave = {
 				from: req.session.user.id,
