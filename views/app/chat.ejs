@@ -13,6 +13,10 @@
 
 </div>
 
+<audio id="click">
+    <source src="/sounds/click.mp3" type="audio/mpeg">
+</audio>
+
 
 <script type="text/javascript">
 	window.onload = function subscribeAndListen(){
@@ -46,7 +50,6 @@
 	    //io.socket.get('/message/subToMessage/');
 
 	    io.socket.on('message' ,function(obj){
-	    	console.log(obj);
 
 	    	var toWrite = "<p class='chat-msg'><strong>";
 
@@ -63,6 +66,7 @@
 
 	    	$('#chat-box').animate({scrollTop: $('#chat-box').prop("scrollHeight")}, "fast");
 
+	    	$("#click")[0].play();
 
 	    });
 
