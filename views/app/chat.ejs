@@ -3,7 +3,7 @@
 	</h3>
 	</hr>
 	<div id="chat-box" class="chat-content col-md-offset-1 col-md-10 col-sm-12 col-xs-12" >
-		<% for(var i=0; i<messages.length; i++) { %>
+		<% for(var i=messages.length-1; i>=0; i--) { %>
 		   <p class='chat-msg <%= (messages[i].unread)? "unread" : "" %>' ><strong><%= (messages[i].from == me)? "Me: " : recipientSname+": " %></strong> <%= messages[i].content %></p>
 		<% } %>
 	</div>

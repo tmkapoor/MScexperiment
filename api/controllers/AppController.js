@@ -109,7 +109,7 @@ module.exports = {
 
 	chat: function(req, res, next){
 
-		User.findOne({id: req.session.chat.recipient }).limit(256).exec(function(err, user){
+		User.findOne({id: req.session.chat.recipient }).exec(function(err, user){
 			if(err){
 				sails.config.app.setFlashMessage(req, "Unable to connect to database", "error");
 				res.redirect("/app/home");
@@ -121,7 +121,7 @@ module.exports = {
 				}
 				else{
 
-					Message.find().where({from: [req.session.user.id, req.session.chat.recipient], to: [req.session.chat.recipient, req.session.user.id]}).exec(function(err, messages){
+					Message.find().where({from: [req.session.user.id, req.session.chat.recipient], to: [req.session.chat.recipient, req.session.user.id]}).sort("id DESC").limit(256).exec(function(err, messages){
 						if(err){
 							sails.config.setFlashMessage(req, "Unable to connect to databse.");
 							console.log(err);
