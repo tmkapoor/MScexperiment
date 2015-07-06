@@ -1,0 +1,54 @@
+<p class="lead">Attach user</p>
+<form action="/user/attach" method="POST" >
+	<label>ID</label>
+	<input type="text" name="id1" placeholder="ID of first" />
+	<input type="text" name="id2" placeholder="ID of second" />
+	<input type="hidden" name="_csrf" value="<%= _csrf %>" />
+	<input type="submit" />
+</form>
+
+<hr>
+
+<p class="lead">Unattach user</p>
+<form action="/user/unattach" method="POST" >
+	<label>ID</label>
+	<input type="text" name="id" placeholder="ID to unattach" />
+	<input type="hidden" name="_csrf" value="<%= _csrf %>" />
+	<input type="submit" />
+</form>
+
+<hr>
+
+Total count: <%= users.length %>
+<hr>
+<div class="col-md-6">
+	<pre>
+		* * * ATTACHED * * *
+
+		<% for(var i=0 ; i<users.length ; i++){ 
+			if(users[i].attached){ %>
+				<p><b>User:</b> <%= users[i].sname %>
+				<b>Email:</b> <%= users[i].email %>
+				<b>ID:</b> <%= users[i].id %>
+				<b>Attached:</b> <%= users[i].attached %>
+				<b>To:</b> <%= users[i].attachedTo %></p>
+		<%	} 
+		} %>
+	</pre>
+</div>
+
+<div class="col-md-6">
+	<pre>
+		* * * UNATTACHED * * *
+
+		<% for(var i=0 ; i<users.length ; i++){ 
+			if(!users[i].attached){ %>
+				<p><b>User:</b> <%= users[i].sname %>
+				<b>Email:</b> <%= users[i].email %>
+				<b>ID:</b> <%= users[i].id %>
+				<b>Attached:</b> <%= users[i].attached %>
+				<b>To:</b> <%= users[i].attachedTo %></p>
+		<%	} 
+		} %>
+	</pre>
+</div>

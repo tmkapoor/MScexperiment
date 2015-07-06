@@ -30,7 +30,13 @@ module.exports.policies = {
 
    'app':{
       '*': ['flash', 'sessionAuth']
-   }
+   },
+
+   'user':{
+    'adminEdit': ['flash', 'onlyAdmin'],
+    'attach': ['flash', 'onlyAdmin'],
+    'unattach': ['flash', 'onlyAdmin'],
+   },
 
   /***************************************************************************
   *                                                                          *

@@ -81,6 +81,65 @@ module.exports = {
 		}
 	},
 
+	adminEdit: function(req, res, next){
+
+		User.find().exec(function(err, users){
+			if(err){
+				sails.config.app.setFlashMessage(req, ["Unable to connect to database"], "error");
+			}
+			else{
+				res.view({
+					users: users
+				});
+			}
+		});
+
+	},
+
+	unattach: function(req, res, next){
+		var id = req.param("id");
+
+		User.update({id: id}, {attached: false, attachedTo: -1}).exec(function(err, user){
+			if(err){
+				sails.config.app.setFlashMessage(req, ["Some error occured"], "error");
+				console.log(err);
+				res.redirect("/user/adminEdit");
+			}
+			else{
+				sails.config.app.setFlashMessage(req, ["Success !"], "success");
+				res.redirect("/user/adminEdit");
+			}
+		});
+	},
+
+	attach: function(req, res, next){
+
+		var id1 = req.param("id1");
+		var id2 = req.param("id2");
+
+		User.update({id: id1}, {attached: true, attachedTo: id2}).exec(function(err, user){
+			if(err){
+				sails.config.app.setFlashMessage(req, ["Some error occured in updating id1 "+id1], "error");
+				console.log(err);
+				res.redirect("/user/adminEdit");
+			}
+			else{
+				User.update({id: id2}, {attached: true, attachedTo: id1}).exec(function(err, user){
+					if(err){
+						sails.config.app.setFlashMessage(req, ["Some error occured in updating id2 "+id2], "error");
+						console.log(err);
+						res.redirect("/user/adminEdit");
+					}
+					else{
+						sails.config.app.setFlashMessage(req, ["Success !"], "success");
+						res.redirect("/user/adminEdit");
+					}
+				});
+			}
+		});
+
+	},
+
 	subToUser: function(req, res, next){
 		if(req.isSocket){
 			User.find({}).exec(function(err, users){
