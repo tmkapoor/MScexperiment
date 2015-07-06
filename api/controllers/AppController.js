@@ -130,7 +130,7 @@ module.exports = {
 
 							Message.update({to: req.session.user.id, from: req.session.chat.recipient, unread: true}, {unread: false}).exec(function(err, messages){
 								if(!err){
-									console.log("Marked unread messages as read.");
+									//console.log("Marked unread messages as read.");
 								}
 							});
 

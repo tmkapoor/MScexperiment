@@ -22,6 +22,8 @@ module.exports = {
 
 		var holder = req.params.all();
 
+		console.log("*** NEW SIGNUP !");
+
 		console.log(holder);
 
 		if(!holder.sname || !holder.email || !holder.emailcheck || !holder.password || !holder.confirmation){
@@ -144,7 +146,6 @@ module.exports = {
 		if(req.isSocket){
 			User.find({}).exec(function(err, users){
 				if(!err){
-					console.log(req.socket.id + " asked to subscribe to the user model.");
 					User.subscribe(req.socket, users);
 				}
 			});

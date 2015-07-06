@@ -36,9 +36,6 @@ module.exports = {
 				dbSlave.unread = true;
 			}
 
-			console.log("\n\n*********\n MSG\n*********");
-			console.log(dbSlave);
-
 			Message.create(dbSlave, function(err, message){
 				if(err){
 					console.log(err);
@@ -57,8 +54,6 @@ module.exports = {
 					if(recipientSocket){
 						destinationSocket.push(recipientSocket);
 					}
-
-					console.log(destinationSocket);
 
 					sails.sockets.emit(destinationSocket, 'message', socketSlave);
 				}
