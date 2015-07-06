@@ -11,8 +11,11 @@
 		<textarea id="message" placeholder="Write message, hit Enter to send." class="col-md-10" ></textarea>
 		<button id="send" class="btn btn-large btn-success col-md-2" >SEND</button>
 	</div>
-
 </div>
+
+<audio id="ting">
+	    <source src="/sounds/ting.mp3" type="audio/mpeg">
+	</audio>
 
 <audio id="click">
     <source src="/sounds/click.mp3" type="audio/mpeg">
@@ -20,24 +23,23 @@
 
 
 <script type="text/javascript">
-	window.onload = function subscribeAndListen(){
+	function scoopAndSend(e){
+    	e.preventDefault();
+    	var messageBox = $("#message");
+    	var content = messageBox.val();
+    	messageBox.val("");
+    	io.socket.get('/message/send/', {content: content}, function(data){ console.log(data); });
 
-		function scoopAndSend(e){
-	    	e.preventDefault();
-	    	var messageBox = $("#message");
-	    	var content = messageBox.val();
-	    	messageBox.val("");
-	    	io.socket.get('/message/send/', {content: content}, function(data){ console.log(data); });
+    	message.focus();
+    }
 
-	    	message.focus();
-	    }
-
-	    function checkAndSend(e){
-			if(e.which == 13) {
-				scoopAndSend(e);
-			}
+    function checkAndSend(e){
+		if(e.which == 13) {
+			scoopAndSend(e);
 		}
+	}
 
+	window.onload = function subscribeAndListen(){
 
 		$("#send").click(scoopAndSend);
 
@@ -47,9 +49,21 @@
 
 		var recipient = "<%= recipientSname %>";
 
-	    // When the document loads, send a request to users.testSocket
-	    // The controller code will subscribe you to all of the 'users' model instances (records)
-	    //io.socket.get('/message/subToMessage/');
+	    io.socket.get('/user/subToUser/');
+
+	    io.socket.on('user' ,function(obj){
+		    	console.log(obj);
+		    	if(obj.id === "<%= recipient %>"){
+			    	if(obj.data.online){
+			    		$("#online-status").html("Online");
+			    		$("#ting")[0].play();
+
+			    	}
+			    	else{
+			    		$("#online-status").html("Offline");
+			    	}
+			    }
+		    });
 
 	    io.socket.on('message' ,function(obj){
 
@@ -71,10 +85,6 @@
 	    	$("#click")[0].play();
 
 	    });
-
-	    
-
-
 	};
 
 </script>
