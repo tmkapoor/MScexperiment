@@ -31,7 +31,8 @@ textarea{
 	overflow-x: hidden;
 	height: 24em;
 	border: solid 1px #A5D6A7;
-	margin: 2em auto;
+	margin-top: 2em;
+	margin-bottom: 1em;
 	white-space: nowrap;
 }
 
@@ -56,4 +57,25 @@ textarea{
 p.chat-msg{
 	word-wrap: break-word;
 }
+
+p.unread{
+	background: #E0F2F1;
+}
+
+.error-field{
+	border: solid 1px red;
+}
+
+.green{
+	color: green;
+}
+
+.red{
+	color: red;
+}
+
+.alert{
+	padding: 1em 3em;
+}
+
 

@@ -1,5 +1,6 @@
 <div>
-	<h3>You are now connected to <%= recipientSname %></h3>
+	<h3>You are now talking to <%= recipientSname %> (<span id="online-status"><%= (recipientOnline)? 'Online' : 'Offline' %></span>) 
+	</h3>
 	</hr>
 	<div id="chat-box" class="chat-content col-md-offset-1 col-md-10 col-sm-12 col-xs-12" >
 		<% for(var i=0; i<messages.length; i++) { %>
@@ -7,7 +8,7 @@
 		<% } %>
 	</div>
 	<div class="col-md-12">
-		<textarea id="message" class="col-md-10" ></textarea>
+		<textarea id="message" placeholder="Write message, hit Enter to send." class="col-md-10" ></textarea>
 		<button id="send" class="btn btn-large btn-success col-md-2" >SEND</button>
 	</div>
 
@@ -42,6 +43,7 @@
 
 		$("#message").keypress(checkAndSend);
 
+		$('#chat-box').animate({scrollTop: $('#chat-box').prop("scrollHeight")}, "fast");
 
 		var recipient = "<%= recipientSname %>";
 

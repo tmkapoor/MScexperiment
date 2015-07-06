@@ -23,8 +23,6 @@ module.exports = {
 						}
 						else{
 
-							console.log(messages.length + " unread messages were found.");
-
 							if(req.session.user.attached){
 								var avail = users.filter(function(el){
 									return el.id === req.session.user.attachedTo;
@@ -43,6 +41,19 @@ module.exports = {
 									unread[messages[i].from] = 1;
 								else
 									unread[messages[i].from]++;
+							}
+
+							for(var i=0 ; i<avail.length ; i++){
+								var test = sails.config.app.online.filter(function(el){
+									return el.id === avail[i].id;
+								});
+
+								if(test.length > 0){
+									avail[i].online = true;
+								}
+								else{
+									avail[i].online = false;	
+								}
 							}
 
 							var viewSlave = {
@@ -127,7 +138,7 @@ module.exports = {
 								me: req.session.user.id,
 								recipient: user.id, 
 								recipientSname: user.sname,
-								recipientOnline: user.online,
+								recipientOnline: sails.config.app.getSocketId(user.id),
 								messages: messages,
 							};
 							res.view(viewSlave);

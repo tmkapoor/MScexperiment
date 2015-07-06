@@ -22,33 +22,63 @@ module.exports = {
 
 		var holder = req.params.all();
 
-		var encPassword = "";
-		dbSlave = {};
+		console.log(holder);
 
-		require('bcrypt').hash(holder.password, 10, function passwordEncrypted(err, encryptedPassword){
-		    if (err){
-		    	return next(err);
-		    }
+		if(!holder.sname || !holder.email || !holder.emailcheck || !holder.password || !holder.confirmation){
+			sails.config.app.setFlashMessage(req, ["Please fill in all the fields"], "error");
+			res.redirect('/user/new');
+		}
+		else{
 
-	      	dbSlave = {
-				sname: holder.sname,
-				email: holder.email,
-				password: encryptedPassword,
-				online: 0,
-			};
+			if(holder.email != holder.emailcheck){
+				sails.config.app.setFlashMessage(req, ["You emails didn't match"], "error");
+				res.redirect('/user/new');
+			}
+			else if(holder.password != holder.confirmation){
+				sails.config.app.setFlashMessage(req, ["You passwords didn't match"], "error");
+				res.redirect('/user/new');
+			}
+			else{
 
-			User.create(dbSlave, function userCreated(err, user){
-				if(err){
-					sails.config.app.setFlashMessage(req, ["An error occured."], "error");
-					console.log(err);
-				}
-				else{
-					sails.config.app.setFlashMessage(req, ["You have succesfully created your account."], "success");
-					console.log(user);
-					res.redirect('/session/new');
-				}
-			});
-		});
+
+				User.find({sname: holder.sname}).exec(function(err, user){
+					if(!err){
+						if(user.length > 0){
+							sails.config.app.setFlashMessage(req, ["The screen name '" + holder.sname + "' is already taken, try another"], "error");
+							res.redirect("/user/new");
+						}
+					}
+				});
+
+				var encPassword = "";
+				dbSlave = {};
+
+				require('bcrypt').hash(holder.password, 10, function passwordEncrypted(err, encryptedPassword){
+				    if (err){
+				    	return next(err);
+				    }
+
+			      	dbSlave = {
+						sname: holder.sname,
+						email: holder.email,
+						password: encryptedPassword,
+						online: 0,
+					};
+
+					User.create(dbSlave, function userCreated(err, user){
+						if(err){
+							sails.config.app.setFlashMessage(req, ["An error occured."], "error");
+							console.log(err);
+						}
+						else{
+							sails.config.app.setFlashMessage(req, ["You have succesfully created your account."], "success");
+							console.log(user);
+							res.redirect('/session/new');
+						}
+					});
+				});
+			}
+		}
 	},
 
 	subToUser: function(req, res, next){

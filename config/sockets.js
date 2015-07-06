@@ -47,8 +47,6 @@ module.exports.sockets = {
 
         User.publishUpdate(session.user.id, { online: true});
 
-        console.log("::> User added ! The online count is " + sails.config.app.online.length);
-
       }
   },
 
@@ -69,8 +67,6 @@ module.exports.sockets = {
       }
 
       User.publishUpdate(session.user.id, { online: false});
-
-      console.log("::> User removed ! The online count is " + sails.config.app.online.length);
 
     }
   },

@@ -102,6 +102,7 @@ module.exports = {
 					sails.config.app.online.splice(i, 1);
 				}
 			}
+			User.publishUpdate(req.session.user.id, { online: false});
 		}
 
 		req.session.authenticated = false;
@@ -109,8 +110,6 @@ module.exports = {
 
 		req.session.user = {};
 		delete req.session.user;
-
-		User.publishUpdate(session.user.id, { online: false});
 
 		sails.config.app.setFlashMessage(req, ["You have successfully logged out."], "success");
 

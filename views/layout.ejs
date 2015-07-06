@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>New Sails App</title>
+    <title>UCLIC Study</title>
 
     <!-- Viewport mobile tag for sensible mobile support -->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -24,7 +24,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="/app/home">UCL Experiment</a>
+      <a class="navbar-brand" href="/app/home">UCLIC Study</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -50,6 +50,9 @@
         </li> -->
       </ul>
       <ul class="nav navbar-nav navbar-right">
+        <% if(req.session.authenticated) { %>
+          <li><a href="#">Logged in as <%= req.session.user.sname %></a></li>
+        <% }%> 
         <li><a href="/session/destroy">Sign out</a></li>
         <!-- <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
@@ -68,7 +71,7 @@
 
     <% if(typeof flash != 'undefined' && flash && flash.msg) { %>
       <div class="container">
-          <ul class="alert <%= flash.type %>">
+          <ul class="alert alert-<%= flash.type %>">
             <% Object.keys(flash.msg).forEach(function(msg) { %>
               <li><%- flash.msg[msg] %></li>
             <% }) %>

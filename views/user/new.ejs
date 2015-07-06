@@ -1,28 +1,30 @@
 <div class="jumbotron">
-	<form action="/user/create" method="POST">
+	<form action="/user/create" method="POST" id="sign-up-form" onsubmit="return formValidations();">
 		<div class="form-group">
 			<label for="sname" >Screen name</label>
-			<input class="form-control" type="text" name="sname" placeholder="Screen name" />
+			<p>Please use a screen name that does not identify your real identity, be creative :D</p>
+			<input class="form-control required" type="text" id="sname" name="sname" placeholder="Screen name" />
 		</div>
 
 		<div class="form-group">
 			<label for="email" >Email</label>
-			<input class="form-control" type="email" name="email" placeholder="Email address" />
+			<p>Use the same email as you did in the recruitment form</p>
+			<input class="form-control required" type="email" id="email" name="email" placeholder="Email address" />
 		</div>
 
 		<div class="form-group">
 			<label for="email-check" >Confirm email</label>
-			<input class="form-control" type="email" name="email-check" placeholder="Email address" />
+			<input class="form-control required" type="email" id="emailcheck" name="emailcheck" placeholder="Re-enter Email address" />
 		</div>
 
 		<div class="form-group">
-			<label for="password" >Password</label>
-			<input class="form-control" type="password" name="password" placeholder="Password" />
+			<label for="password" >Password</label> 
+			<input class="form-control required" type="password" id="password" name="password" placeholder="Password" />
 		</div>
 
 		<div class="form-group">
-			<label for="confirmation" >Confirm password</label>
-			<input class="form-control" type="password" name="confirmation" placeholder="Password" />
+			<label for="confirmation" >Password</label> 
+			<input class="form-control required" type="password" id="confirmation" name="confirmation" placeholder="Re-enter Password" />
 		</div>
 		
 		<div class="form-group">
@@ -32,3 +34,56 @@
 		
 	</form>
 </div>
+
+<script type="text/javascript">
+
+	window.onload = function validations(){
+
+	}
+
+	function chechEmpty(){
+		$(".required").each(function(each){
+			if($(this).val().length == 0){
+				$(this).focus();
+				$(this).addClass("error-field");
+
+				alert("You need to fill all the fields !");
+				return false;
+			}
+		});
+		return true;
+	}
+
+	function checkMatch(){
+		if($("#email").val() === $("#emailcheck").val()){
+			if($("#password").val() === $("#confirmation").val()){
+				return true;
+			}
+			else{
+				alert("Passwords don't match !");
+				return false;
+			}
+		}
+		else{
+			alert("Emails don't match !");
+			return false;
+		}
+	}
+
+
+	function formValidations(){
+		$(".required").removeClass('error-field');
+		if(chechEmpty()){
+			if(checkMatch()){
+				return true;
+			}
+			else{
+				return false;
+			}
+		}
+		else{
+			return false;
+		}
+	}
+
+</script>

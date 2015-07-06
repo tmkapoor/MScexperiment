@@ -1,56 +1,93 @@
-<div class="col-md-12">
-	<h3>Hi <%= mySname %>, welcome to my experiment...</h3>
-	<p class="lead" >Here you have a small "social network", where you get to meet some new and exciting people. Below you can see whom you can connect with. Go ahead say 'Hi' :)</p>
-</div>
+<% if(false){ %>
+	<div class="col-md-12">
+		<h3>Hi <%= mySname %>, welcome to my study...</h3>
+		<p class="lead" >This app is waiting for the user count to hit 20, so that the experiment can begin.</p>
 
-<div class="col-md-12">
-	<div class="col-md-8">
-		<p>Click one of the buttons below to connect with someone</p>
+		<p class="lead" >In the mean time, you can start by filling out <a href="https://docs.google.com/forms/d/1TpkSk4vYUPSqzuBgSllbp0sdQMzZH2zXLGxBPrzD16A/viewform?entry.1145611537=<%= req.session.user.email %>" >this survey.</a></p>
+
+		<p class="lead" >Cheers.</p>
+	</div>
+<% }
+else{ %>
+	<div class="col-md-12">
+		<h3>Hi <%= mySname %>, welcome to my study...</h3>
+
+		<p class="lead" >Here you have a small "social network", where you get to meet some new and exciting people. Below you can see whom you can connect with. Go ahead say 'Hi' :)</p>
+
+		<p class="lead" >BTW have you filled out <a href="https://docs.google.com/forms/d/1TpkSk4vYUPSqzuBgSllbp0sdQMzZH2zXLGxBPrzD16A/viewform?entry.1145611537=<%= req.session.user.email %>" >this survey</a> ? If not please do :)</p>
+
+	</div>
+
+	<div class="col-md-12">
+		<div class="col-md-8">
+			<p>Click one of the buttons below to connect with someone</p>
+			<hr>
+			<% available.forEach(function(each){ %>
+				<div class="col-md-4 center padding" style="margin: 2em auto;">
+					<button class="btn btn-default <%= (each.online)? 'btn-info' : '' %> stretch-90 id_<%= each.id %>" onclick="window.location = '/app/init/<%= each.id %>';" type="button">
+					  	<%= each.sname %> <span class="badge"> <%= (unread[each.id]) ? unread[each.id] : 0 %> </span>
+					</button>
+				</div>
+			<% }); %>
+		</div>
+		<div class="col-md-4" style="background: #EAEAEA">
+			</br>
+			</br>
+			<p class="lead">LEGEND</p>
+			<hr>
+			<p>Online</p>
+			<button class="btn btn-default btn-info" type="button">
+					  	Someone
+					  	<span class="badge"> 36 </span>
+			</button>
+			<hr>
+			<p>Offline</p>
+			<button class="btn btn-default" type="button">
+					  	Someone
+					  	<span class="badge"> 36 </span>
+			</button>
+			<p>**Don't worry you can message someone even when they are offline, they will just get message when they log in.</p>
+		</div>
+	</div>
+	<hr>
+	<div class="col-md-12" >
 		<hr>
 
-		<% available.forEach(function(each){ %>
-			<div class="col-md-4 center padding">
-				<button class="btn btn-default stretch-90 id_<%= each.id %>" onclick="window.location = '/app/init/<%= each.id %>';" type="button">
-				  	<%= each.sname %> <span class="badge"> <%= (unread[each.id]) ? unread[each.id] : 0 %> </span>
-				</button>
-			</div>
-		<% }); %>
-	</div>
-	<div class="col-md-4">
-		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut ut dui sit amet felis fringilla fermentum. Quisque malesuada viverra eros. Suspendisse ante erat, finibus sit amet scelerisque ac, varius vel diam. Aliquam aliquet tortor nulla, quis dictum mi malesuada sit amet. Cras pulvinar blandit ipsum, a vulputate leo interdum eget. Mauris ornare lacus et lacus volutpat aliquet. Fusce vehicula sodales est sit amet lacinia. Pellentesque elit ipsum, iaculis vel ex sed, tincidunt vulputate nisl. Fusce non nunc eget nibh dapibus sollicitudin fringilla elementum neque. Nulla varius dapibus sem vel laoreet. Suspendisse pulvinar ornare libero, mattis porta ligula consequat vel.</p>
-	</div>
-</div>
+	</div>	
 
-<audio id="ting">
-    <source src="/sounds/ting.mp3" type="audio/mpeg">
-</audio>
+	<audio id="ting">
+	    <source src="/sounds/ting.mp3" type="audio/mpeg">
+	</audio>
 
-<audio id="click">
-    <source src="/sounds/click.mp3" type="audio/mpeg">
-</audio>
+	<audio id="click">
+	    <source src="/sounds/click.mp3" type="audio/mpeg">
+	</audio>
 
-<script type="text/javascript">
-	window.onload = function subscribeAndListen(){
+	<script type="text/javascript">
+		window.onload = function subscribeAndListen(){
 
-	    io.socket.get('/message/subToMessage/');
-	    io.socket.get('/user/subToUser/');
+		    io.socket.get('/message/subToMessage/');
+		    io.socket.get('/user/subToUser/');
 
-	    io.socket.on('message' ,function(obj){
-	    	console.log();
-	    	$("#click")[0].play();
-	    });
+		    io.socket.on('message' ,function(obj){
+		    	console.log();
+		    	$("#click")[0].play();
+		    });
 
-	    io.socket.on('user' ,function(obj){
-	    	console.log(obj);
+		    io.socket.on('user' ,function(obj){
+		    	console.log(obj);
 
-	    	if(obj.data.online){
-	    		$("button.id_"+obj.id).addClass('btn-info');
-	    		$("#ting")[0].play();
-	    	}
-	    	else{
-	    		$("button.id_"+obj.id).removeClass('btn-info');
-	    	}
+		    	if(obj.data.online){
+		    		if(!$("button.id_"+obj.id).hasClass('btn-info')){
+			    		$("button.id_"+obj.id).addClass('btn-info');
+			    		$("#ting")[0].play();
+			    	}
+		    	}
+		    	else{
+		    		$("button.id_"+obj.id).removeClass('btn-info');
+		    	}
 
-	    });
-	};
-</script>
+		    });
+		};
+	</script>
+<% } %>
