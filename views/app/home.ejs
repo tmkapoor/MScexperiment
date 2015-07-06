@@ -71,13 +71,17 @@ else{ %>
 
 		    io.socket.on('message' ,function(obj){
 		    	console.log();
+		    	var num = $("button.id_"+obj.from+" span").html(); 
+	    		num = parseInt(num);
+	    		num++;
+	    		$("button.id_"+obj.from+" span.badge").html(num);
 		    	$("#click")[0].play();
 		    });
 
 		    io.socket.on('user' ,function(obj){
 		    	console.log(obj);
 
-		    	if($("button.id_"+obj.id).length == ){
+		    	if($("button.id_"+obj.id).length <= 0){
 		    		window.location = "/app/home";
 		    	}
 		    	else{
