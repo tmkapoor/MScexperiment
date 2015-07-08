@@ -1,9 +1,9 @@
 <% if(false){ %>
 	<div class="col-md-12">
 		<h3>Hi <%= mySname %>, welcome to my study...</h3>
-		<p class="lead" >This app is waiting for the user count to hit 20, so that the experiment can begin.</p>
+		<p class="lead" >This app is waiting for the user count to hit 20, so that the experiment can begin. That should hopefully be Thursday morning 0900 GMT.</p>
 
-		<p class="lead" >In the mean time, you can start by filling out <a href="https://docs.google.com/forms/d/1TpkSk4vYUPSqzuBgSllbp0sdQMzZH2zXLGxBPrzD16A/viewform?entry.1145611537=<%= req.session.user.email %>" >this survey.</a></p>
+		<p class="lead" >In the mean time, you can start by filling out <a href="https://docs.google.com/forms/d/1TpkSk4vYUPSqzuBgSllbp0sdQMzZH2zXLGxBPrzD16A/viewform?entry.1145611537=<%= req.session.user.email %>" target="_blank" >this survey.</a></p>
 
 		<p class="lead" >Cheers.</p>
 	</div>
@@ -14,7 +14,7 @@ else{ %>
 
 		<p class="lead" >Here you have a small "social network", where you get to meet some new and exciting people. Below you can see whom you can connect with. Go ahead say 'Hi' :)</p>
 
-		<p class="lead" >BTW have you filled out <a href="https://docs.google.com/forms/d/1TpkSk4vYUPSqzuBgSllbp0sdQMzZH2zXLGxBPrzD16A/viewform?entry.1145611537=<%= req.session.user.email %>" >this survey</a> ? If not please do :)</p>
+		<p class="lead" >BTW have you filled out <a href="https://docs.google.com/forms/d/1TpkSk4vYUPSqzuBgSllbp0sdQMzZH2zXLGxBPrzD16A/viewform?entry.1145611537=<%= req.session.user.email %>" target="_blank"  >this survey</a> ? If not please do before you begin :)</p>
 
 	</div>
 
@@ -51,13 +51,9 @@ else{ %>
 	</div>
 	<hr>
 	<div class="col-md-12" >
+			<p>Maybe talk about the weather ? Everyone knows the weather ! Or maybe the USA winning the FIFA womens world cup ?</p>
 		<hr>
-
 	</div>	
-
-	<audio id="ting">
-	    <source src="/sounds/ting.mp3" type="audio/mpeg">
-	</audio>
 
 	<audio id="click">
 	    <source src="/sounds/click.mp3" type="audio/mpeg">
@@ -88,7 +84,6 @@ else{ %>
 		    		if(obj.data.online){
 			    		if(!$("button.id_"+obj.id).hasClass('btn-info')){
 				    		$("button.id_"+obj.id).addClass('btn-info');
-				    		$("#ting")[0].play();
 				    	}
 			    	}
 			    	else{

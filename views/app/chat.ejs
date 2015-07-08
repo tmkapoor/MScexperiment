@@ -74,6 +74,7 @@
 	    	}
 	    	else{
 	    		toWrite += recipient + ": ";
+			$("#click")[0].play();
 	    	}
 
 	    	toWrite += "</strong>" + obj.message + "</p>" ;
@@ -81,8 +82,6 @@
 	    	$("#chat-box").append(toWrite);
 
 	    	$('#chat-box').animate({scrollTop: $('#chat-box').prop("scrollHeight")}, "fast");
-
-	    	$("#click")[0].play();
 
 	    });
 	};
