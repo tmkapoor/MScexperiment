@@ -47,6 +47,8 @@
 
 		$('#chat-box').animate({scrollTop: $('#chat-box').prop("scrollHeight")}, "fast");
 
+		$("#message").focus();
+
 		var recipient = "<%= recipientSname %>";
 
 	    io.socket.get('/user/subToUser/');
@@ -73,11 +75,12 @@
 	    	}
 	    	else if(obj.from === "<%= recipient %>"){
 	    		toWrite += recipient + ": ";
-			$("#click")[0].play();
+				$("#click")[0].play();
 	    	}
-		else{
-			return false;
-		}
+			else{
+				io.socket.get('/message/markUnread/', { msgId: obj.id }, function(data){ });
+				return false;
+			}
 
 	    	toWrite += "</strong>" + obj.message + "</p>" ;
 

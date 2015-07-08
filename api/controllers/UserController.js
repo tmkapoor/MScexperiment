@@ -98,6 +98,10 @@ module.exports = {
 
 	},
 
+	online: function(req, res, next){
+		res.send(sails.config.app.online);
+	},
+
 	unattach: function(req, res, next){
 		var id = req.param("id");
 

@@ -36,6 +36,7 @@ module.exports.policies = {
     'adminEdit': ['flash', 'onlyAdmin'],
     'attach': ['flash', 'onlyAdmin'],
     'unattach': ['flash', 'onlyAdmin'],
+    'online': ['onlyAdmin'],
    },
 
   /***************************************************************************

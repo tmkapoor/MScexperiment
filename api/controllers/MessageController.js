@@ -64,5 +64,21 @@ module.exports = {
 		}
 	},
 
+	markUnread: function(req, res, next){
+		if(req.isSocket && req.param('msgId')){
+			Message.update({id: req.param('msgId')}, {unread: true}, function(err, updated){
+				if(err){
+					//Do nothing
+				}
+				else{
+					//Still do nothing
+				}
+			});
+		}
+		else{
+			res.redirect("/app/home");
+		}
+	},
+
 };
 
