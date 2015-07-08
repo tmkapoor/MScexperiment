@@ -28,7 +28,7 @@
     	var messageBox = $("#message");
     	var content = messageBox.val();
     	messageBox.val("");
-    	io.socket.get('/message/send/', {content: content}, function(data){ console.log(data); });
+    	io.socket.get('/message/send/', {content: content}, function(data){ });
 
     	message.focus();
     }
@@ -52,7 +52,6 @@
 	    io.socket.get('/user/subToUser/');
 
 	    io.socket.on('user' ,function(obj){
-		    	console.log(obj);
 		    	if(obj.id === "<%= recipient %>"){
 			    	if(obj.data.online){
 			    		$("#online-status").html("Online");
@@ -69,13 +68,16 @@
 
 	    	var toWrite = "<p class='chat-msg'><strong>";
 
-	    	if(obj.from != "<%= recipient %>"){
+	    	if(obj.from === "<%= me %>"){
 	    		toWrite += "Me: ";
 	    	}
-	    	else{
+	    	else if(obj.from === "<%= recipient %>"){
 	    		toWrite += recipient + ": ";
 			$("#click")[0].play();
 	    	}
+		else{
+			return false;
+		}
 
 	    	toWrite += "</strong>" + obj.message + "</p>" ;
 
