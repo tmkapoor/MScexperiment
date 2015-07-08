@@ -8,6 +8,8 @@
 module.exports = {
 	home: function(req, res, next){
 
+		req.session.chat = {};
+
 		User.find().exec(function(err, users){
 			if(err){
 				sails.config.setFlashMessage(req, ["Unable to connect try database, try again or contact administrator."], "error");
