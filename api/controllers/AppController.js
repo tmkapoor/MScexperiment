@@ -84,17 +84,20 @@ module.exports = {
 		if (req.session.user.attached == true) {
 			var to = req.session.user.attachedTo;
 		}
-		else{
+		else if(req.param("id")){
 			var to = req.param("id");
 		}
-
+		else{
+			res.redirect("/app/home");
+		}
+		if(to){
 		User.findOne({id: to }).exec(function(err, user){
 			if(err){
 				sails.config.app.setFlashMessage(req, "Unable to connect to database", "error");
 				res.redirect("/app/home");
 			}
 			else{
-				if(user.length <= 0){
+				if(!user || user.length <= 0){
 					sails.config.app.setFlashMessage(req, "No such user found, sorry :(", "error");
 					res.redirect("/app/home");		
 				}
@@ -107,9 +110,15 @@ module.exports = {
 				}
 			}
 		});
+		}
 	},
 
 	chat: function(req, res, next){
+
+		if(!req.session.chat.recipient){
+			res.redirect("/app/home");
+		}
+		else{
 
 		User.findOne({id: req.session.chat.recipient }).exec(function(err, user){
 			if(err){
@@ -149,6 +158,7 @@ module.exports = {
 				}
 			}
 		});
+		}
 	},
 
 };

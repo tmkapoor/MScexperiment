@@ -22,7 +22,7 @@ else{ %>
 		<div class="col-md-8">
 			<p>Click one of the buttons below to connect with someone</p>
 
-			<p><b>Hi. A bug was just reported to me, some messages were being delivered to the wrong chat window, I apologize for whomever was affected. I have put in a temp fix for the bug and should have a solid fix by tonight. Cheers.</b> </p>
+			<p><b>Apologies for the server restart ! Was fixing the messaging bug. Should be all good now. Cheers.</b></p>
 
 			<hr>
 			<% available.forEach(function(each){ %>
@@ -77,6 +77,7 @@ else{ %>
 	    		num++;
 	    		$("button.id_"+obj.from+" span.badge").html(num);
 		    	$("#click")[0].play();
+			io.socket.get('/message/markUnread/', { msgId: obj.id }, function(data){ });
 		    });
 
 		    io.socket.on('user' ,function(obj){

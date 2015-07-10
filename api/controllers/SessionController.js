@@ -48,7 +48,7 @@ module.exports = {
 									msg: ["Unable to connect to database"],
 									type: "error",
 								};
-								res.redirect("/session/new")
+								res.redirect("/session/new");
 							}
 							else{
 								if(!valid){
@@ -72,6 +72,9 @@ module.exports = {
 
 									req.session.authenticated = true;
 									req.session.user = userObj;
+
+									console.log("USER LOGIN");
+									console.log(userObj);
 
 									//Change status to online in db
 
